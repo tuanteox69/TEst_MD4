@@ -10,7 +10,6 @@ import java.util.Optional;
 public interface IStaffRepo extends PagingAndSortingRepository<Staff,Long> {
     Page<Staff> findAllBynameContaining(Pageable pageable, String name);
     Optional<Staff> findByname(String name);
-    Optional<Staff> findByStaffCode(String name);
 
 
 }

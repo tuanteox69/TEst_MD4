@@ -35,7 +35,5 @@ public class StaffService {
     public Optional<Staff> findByname(String name) {
         return iStaffRepo.findByname(name);
     }
-    public Optional<Staff> findByStaffCode(String name) {
-        return iStaffRepo.findByStaffCode(name);
-    }
+
 }

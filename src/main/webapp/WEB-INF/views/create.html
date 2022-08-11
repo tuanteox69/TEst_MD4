@@ -22,11 +22,12 @@
             </tr>
             <tr>
                 <td>Age :</td>
-                <td><input th:field="*{age}"></td>
+                <td><input type="number" th:field="*{age}"></td>
             </tr>
+            <tr>  <td colspan="2" style="color: red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></td></tr>
             <tr>
                 <td>Salary :</td>
-                <td><input th:field="*{salary}"></td>
+                <td><input type="number" th:field="*{salary}"></td>
             </tr>
             </thead>
             <tbody>

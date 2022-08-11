@@ -4,6 +4,7 @@ package com.codegym.quanlinhanvien.models;
 import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -11,10 +12,9 @@ public class Staff {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String StaffCode;
     @Size(max = 15, message = "Tên quá dài")
     private String name;
-    @NumberFormat
+    @Min(value = 18,message = "Chua du tuoi")
     private int age;
     private long salary;
     @ManyToOne
@@ -23,9 +23,9 @@ public class Staff {
     public Staff() {
     }
 
-    public Staff(long id, String staffCode, String name, int age, long salary, Branch branch) {
+    public Staff(long id, String name, int age, long salary, Branch branch) {
         this.id = id;
-        StaffCode = staffCode;
+
         this.name = name;
         this.age = age;
         this.salary = salary;
@@ -40,13 +40,6 @@ public class Staff {
         this.id = id;
     }
 
-    public String getStaffCode() {
-        return StaffCode;
-    }
-
-    public void setStaffCode(String staffCode) {
-        StaffCode = staffCode;
-    }
 
     public String getName() {
         return name;

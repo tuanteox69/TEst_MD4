@@ -12,22 +12,19 @@
 <body>
 <h3>View Staff</h3>
 <p>
-    <a th:href="@{/staff}">
+    <a th:href="@{/staffs}">
         Back to staff list
     </a>
 </p>
 <div id="detail">
-    <div class="cusdetail">
-        <label>Employee Code:</label>
-        <label th:text="${staffView.staffCode}"></label>
-    </div>
+
     <div class="cusdetail">
         <label>Name:</label>
-        <label th:text="${staffView.staffName}"></label>
+        <label th:text="${staffView.name}"></label>
     </div>
     <div class="cusdetail">
         <label>Age:</label>
-        <label th:text="${staffView.staffAge}" > </label>
+        <label th:text="${staffView.age}" > </label>
     </div>
     <div class="cusdetail">
         <label>Salary:</label>
@@ -35,7 +32,7 @@
     </div>
     <div class="cusdetail">
         <label>Branch:</label>
-        <label th:text="${staffView.branch.getNameBranch()}" ></label>
+        <label th:text="${staffView.branch.getName()}" ></label>
     </div>
 
 </div>

@@ -5,17 +5,23 @@ import com.codegym.quanlinhanvien.models.Staff;
 import com.codegym.quanlinhanvien.service.BranchService;
 import com.codegym.quanlinhanvien.service.StaffService;
 
+import com.codegym.quanlinhanvien.validate.ValidateStaff;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class StaffController {
@@ -23,8 +29,8 @@ public class StaffController {
     StaffService staffService;
 @Autowired
 BranchService branchService;
-//@Autowired
-//    ValidateStaff validateStaff;
+@Autowired
+ValidateStaff validateStaff;
 @ModelAttribute(name = "staff")
     public Staff staff(){return new Staff();}
     @ModelAttribute(name = "branch")
@@ -48,9 +54,15 @@ BranchService branchService;
         return new ModelAndView("create");
     }
     @PostMapping("/create")
-    public ModelAndView create( @ModelAttribute("staff") Staff staff) {
+    public ModelAndView create(@Valid @ModelAttribute("staff") Staff staff, BindingResult bindingResult) {
+        validateStaff.validate(staff, bindingResult);
+        if (bindingResult.hasFieldErrors()) {
+            ModelAndView modelAndView = new ModelAndView("/create");
+            return modelAndView;
+        }
         staffService.save(staff);
-        return new ModelAndView("redirect:/staffs");
+        ModelAndView modelAndView = new ModelAndView("redirect:/staffs");
+        return modelAndView;
     }
     @GetMapping("/edit")
     public ModelAndView showEdit(@RequestParam long id){
@@ -65,9 +77,17 @@ BranchService branchService;
         return new ModelAndView("redirect:/staffs");
     }
     @GetMapping("/delete")
-    public ModelAndView delete(@RequestParam int id){
+    public ModelAndView delete(@RequestParam int id, RedirectAttributes redirect){
         ModelAndView modelAndView = new ModelAndView("redirect:/staffs");
         staffService.delete(id);
+        redirect.addFlashAttribute("success", "Removed staff successfully!");
+        return modelAndView;
+    }
+    @GetMapping("/view")
+    public ModelAndView showblog(@RequestParam int id , Model model) {
+        ModelAndView modelAndView = new ModelAndView("View");
+        Optional<Staff> optional = staffService.findById(id);
+        modelAndView.addObject("staffView", optional.get());
         return modelAndView;
     }
 }
